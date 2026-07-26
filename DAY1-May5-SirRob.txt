@@ -133,11 +133,11 @@ vlan 10
 vlan 50
    name IPCameraVLAN
 vlan 69
-   name vlanNIrobert
+   name HRD
 vlan 70
-    name EXTRAVLAN
+    name ACCOUNTING
 vlan 71
-    name HRD-POLICY
+    name NOC
 vlan 100
    name VOICEVLAN
 Int Fa 0/2
@@ -172,10 +172,10 @@ config t
 ip routing
 ip dhcp pool CAMERA6
 host 10.32.50.6 255.255.255.0
-client-identifier 001a.xxxx.yyyy
+client-identifier 001a.0704.7f63
 ip dhcp pool CAMERA8
 host 10.32.50.8 255.255.255.0
-client-identifier 001a.xxxx.yyyy 
+client-identifier 001a.0709.c25f 
 end
 show ip dhcp binding
 
@@ -246,18 +246,18 @@ ephone-dn 7
 ephone-dn 8
   number 3288
  ephone-dn 9
-   number 3299
+   number 3267
 ephone-dn 10
- number 3298
+ number 3223
 Ephone 1
-  Mac-address cafe.face.baba
+  Mac-address ccd8.c1fb.0e8d
   type 8945
-  button 1:8 2:7 3:6 4:5
+  button 1:8 2:7 3:6 4:9
   restart
 Ephone 2
-  Mac-address fafa.caca.baba
+  Mac-address dca5.f43f.3b7f
   type 8945
-  button 1:4 2:3 3:2 4:1
+  button 1:4 2:3 3:2 4:10
   restart  
 end
 
@@ -288,10 +288,10 @@ configure terminal
  destination-pattern 11..
  session target ipv4:10.11.100.8
  codec g711ULAW
-  !dial-peer voice 12 Voip
-  !destination-pattern 12..
-  !session target ipv4:10.12.100.8
-  !codec g711ULAW
+  dial-peer voice 12 Voip
+  destination-pattern 12..
+  session target ipv4:10.12.100.8
+  codec g711ULAW
 dial-peer voice 21 Voip
  destination-pattern 21..
  session target ipv4:10.21.100.8
@@ -304,10 +304,10 @@ dial-peer voice 31 Voip
  destination-pattern 31..
  session target ipv4:10.31.100.8
  codec g711ULAW
-dial-peer voice 32 Voip
- destination-pattern 32..
- session target ipv4:10.32.100.8
- codec g711ULAW
+!dial-peer voice 32 Voip
+ !destination-pattern 32..
+ !session target ipv4:10.32.100.8
+ !codec g711ULAW
 dial-peer voice 41 Voip
  destination-pattern 41..
  session target ipv4:10.41.100.8
@@ -646,7 +646,7 @@ conf t
    name 3272
 !
   voice register pool 1
-    id mac ____.____.____
+    id mac be6d.e82e.c91b
     number 1 dn 1
     dtmf-relay sip-notify
     username 3271 password 3271
