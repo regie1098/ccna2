@@ -1,0 +1,161 @@
+IPV^ Addressing:
+- IPv4 is 32bits vs IPv6 is 128bits
+- IPv4 has 4 octets (3 dots) vs IPv6 has up to 8 hextets (7 colons)
+- Valid values of IPv6: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F
+
+ex. 1111:0123:0012:001:abcd:0abc:9891:abcd
+
+It allows zero-ommission
+Continous zeroes can be eliminated, in hte place of full zeroes, simply use a double-colon(::)
+
+Rule 1 - Leading Zero Ommission
+before: 1111 : 0123 : 0012 : 0001 : abcd : 0abc : 9891 : abcd
+after:  1111 :  123 :   12 :    1 : abcd :  abc : 9891 : abcd
+
+Rule 2 - Continous Zero Ommission
+before: 1111 : 0123 : 0000 : 0000 : abcd : abcd : abcd : 1000
+after:  1111 :  123        ::       abcd : abcd : abcd : 1000
+
+another before: 1234:0000:0000:0000:abcd:0000:0000:0000
+after:          1234       ::       abcd:  0 :  0 :  0
+
+Rule 3 - Discontinous Zero Ommission
+before: 1111 : 0000 : 0000 : abcd : 0101 : 0000 : 1230 : f00d
+after:  1111       ::        abcd :  101 :   0  : 1230 : f00d
+
+You may address IPv6 like the previously common ways in IPv4
+IPv4: 192.168.1.10/24
+IPv6: 192:168:1::10/64 (originally: 0192:0168:0001:0000:0000:0000:0000:0010/64)
+
+Excercise:
+Try to Convert:
+1. 000a:000c:0000:0000:0000:0000:0000:0000/64
+- a:c::/64
+2. 0000:0000:0000:0000:0000:0000:0000:0000/0 
+- ::/0
+3. fe80:0000:0000:0000:000a:0000:0000:000f/64
+- fe80::a:0:0:f/64
+4. 2002:6500:0000:3000:0000:0000:0000:0000/64
+- 2002:6500:0:3000::/64
+5. 0000:0000:0000:0000:0000:0000:0000:0001/128
+- ::1/128
+6. ff00:0000:0000:beef:a00a:0aa0:0000:0000/8
+- ff00::beef:a00a:aa0:0:0/8
+7. 2001:0db8:0001:0000:0000:0ab9:C0A8:0102/64
+- 2001:db8:1::ab9:C0A8:102/64
+8. 1200:0000:130F:0000:0000:09C0:876A:100B/64
+- 1200:0:130F::9C0:876A:100B/64
+9. 2041:1000:140f:0000:0000:0000:875B:001B/96 
+- 2041:1000:140F::875B:1B/96
+10. 2001:4860:4860:0000:0000:0000:0000:8888/128
+- 2001:4860:4860::8888/128
+
+
+IPv6 Subnetting:
+
+Design the Accenture Network using face:cafe:fafa:fefe::/64 to 50 offices.
+
+Rivan Method CAI
+ConvertMo - Convert 50 offices = 6b
+AddMo - Add /64 + /6 = /70
+IChambMoPattern - 
+
+                8 4 2 1  8 4 2 1  8 4 2 1  8 4 2 1
+                0 0 0 0  0 1 0 0
+1st Office: face:cafe:fafa:fefe::/70
+2nd Office: face:cafe:fafa:fefe:0400::/70
+3rd Office: face:cafe:fafa:fefe:0800::/70
+4th Office: face:cafe:fafa:fefe:0c00::/70
+5th Office: face:cafe:fafa:fefe:1000::/70
+6th Office: face:cafe:fafa:fefe:1400::/70
+7th Office: face:cafe:fafa:fefe:1800::/70
+8th Office: face:cafe:fafa:fefe:1c00::/70
+9th Office: face:cafe:fafa:fefe:2000::/70
+10th Office: face:cafe:fafa:fefe:2400::/70
+
+or IpasokMo (must be determine the HEXTET, HEX DIGIT, Increment)
+/70 = 5th Hextet, 2nd Hex Digit, 4i
+:0000:
+:0400:
+:0800:
+:0c00:
+:1000:
+:1400:
+:1800:
+:1c00:
+:2000:
+:2400:
+:2800:
+:2c00:
+(until 50th Office/Subnet)
+
+Implementation:
+  conf t
+    ipv6 unicast-routing
+      int lo1
+        ipv6 add face:cafe:fafa:fefe::1/70
+      int lo2
+        ipv6 add face:cafe:fafa:fefe:0400::1/70
+      int lo3
+        ipv6 add face:cafe:fafa:fefe:0800::1/70
+      int lo4
+        ipv6 add face:cafe:fafa:fefe:0c00::1/70
+      int lo5
+        ipv6 add face:cafe:fafa:fefe:1000::1/70
+      int lo6
+        ipv6 add face:cafe:fafa:fefe:1400::1/70
+      int lo7
+        ipv6 add face:cafe:fafa:fefe:1800::1/70
+      int lo8
+        ipv6 add face:cafe:fafa:fefe:1c00::1/70
+! All the way to 50th office
+
+! Design an IPv6 Network with abcd:babe:fade:f0f0::/64 to 22 offices
+
+CISCO SWITCHING
+
+NATIVE VLAN = VLAN 1
+
+!FAKE DEATH OF SWITCH
+
+  conf t
+    vlan 123
+    name BUDOL-VLAN
+  exit
+  do show vlan brief
+  int range fa0/1-12
+  switchport mode access
+  switchport access vlan 123
+  do sh vl br
+no vlan 123
+!undo part orphans
+  conf t
+  int range fa0/1-12
+  switchport mode access
+  switchport access vlan 1
+  do sh vl br
+
+The 802.1 Powers of CISCO Switches
+1. 802.1q (Qupid) - Trunk Ports
+
+!Configure Trunk Ports CoreTaas/Corebaba
+  Conf t
+    int range fa0/10-12
+    switchport trunk encap dot1q
+    switchport mode trunk
+    end
+
+2. 802.1D (Darna) - Spanning-Tree Protocol
+@CoreTAAS
+  sh spanning-tree vlan 1
+
+@CoreTAAS/BABA
+  conf t
+ no spanning-tree vlan 1-100
+ spanning-tree vlan 1-100 !return to normal
+
+
+!Make CoreTAAS as Root Bridge
+
+@CoreTAAS
+   Conf t
