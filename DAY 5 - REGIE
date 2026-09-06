@@ -271,3 +271,210 @@ Et0/1               Altn BLK 100       128.2    P2p
 Et0/2               Root FWD 100       128.3    P2p 
 Et0/3               Altn BLK 100       128.4    P2p 
 Et1/0               Desg FWD 100       128.5    P2p 
+
+
+!@C1
+conf t
+  !C1-C2
+  int range e1/2-3
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 30 mode active
+  channel-protocol lacp
+
+  !C1-A1
+  int range e0/1-2
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 10 mode active
+  channel-protocol lacp
+
+  !C1-A2
+  int range e0/0, e0/3
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 20 mode active
+  channel-protocol lacp
+end
+
+
+
+
+
+
+
+
+!@C2
+conf t
+  !C2-C1
+  int range e1/2-3
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 30 mode active
+  channel-protocol lacp
+
+  !C2-A1
+  int range e0/1-2
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 15 mode active
+  channel-protocol lacp
+
+  !C2-A2
+  int range e0/0, e0/3
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 25 mode active
+  channel-protocol lacp
+end
+
+
+
+!@A1
+conf t
+  !A1-C1
+  int range e0/1-2
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 10 mode active
+  channel-protocol lacp
+
+  !A1-C2
+  int range e0/3, e1/0
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 15 mode active
+  channel-protocol lacp
+end
+
+
+!@A2
+conf t
+  !A2-C1
+  int range e0/1-2
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 20 mode active
+  channel-protocol lacp
+
+  !A2-C2
+  int range e0/0, e0/3
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 1-100
+  !
+  channel-group 25 mode active
+  channel-protocol lacp
+end
+
+
+
+3-TIER
+!@C1-C2
+!Configure Trunks
+!@C1
+conf t
+  int range e0/1-3
+  description Connection to C2
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  channel-group 40 mode active
+  channel-protocol lacp
+end
+
+!@C1
+conf t
+  int range e1/1-2
+  description Connection to D1
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  channel-group 11 mode active
+  channel-protocol lacp
+end
+
+!@C1
+conf t
+  int range e2/1-2
+  description Connection to D2
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  channel-group 12 mode active
+  channel-protocol lacp
+end
+
+!@C2
+conf t
+  int range e0/1-3
+  description Connection to C1
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  channel-group 40 mode active
+  channel-protocol lacp
+end
+
+!@C2
+conf t
+  int range e1/1-2
+  description Connection to D1
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  channel-group 21 mode active
+  channel-protocol lacp
+end
+
+!@C2
+conf t
+  int range e2/1-2
+  description Connection to D2
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  channel-group 22 mode active
+  channel-protocol lacp
+end
+
+!@D1
+conf t
+  int range e1/0, 1/3
+  description Connection to C1
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  channel-group 11 mode active
+  channel-protocol lacp
+end
+
+!@D1
+conf t
+  int range e2/0, 2/3
+  description Connection to C2
+  switchport trunk encap dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan all
+  channel-group 21 mode active
+  channel-protocol lacp
+end
+
