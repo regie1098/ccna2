@@ -160,8 +160,15 @@ The 802.1 Powers of CISCO Switches
 @CoreTAAS
    Conf t
       Spanning-tree vlan 1-100 root primary
+    end
 
 
 @CoreBABA
    Conf t
       Spanning-tree vlan 1-100 root secondary
+    end
+
+ROOT BRIDGE ELECTION
+1. Bridge Priority
+2. MAC (lower wins)
+3. 
